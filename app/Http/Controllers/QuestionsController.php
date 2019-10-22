@@ -15,9 +15,7 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        // php artisan vendor:publish --tag=laravel-pagination
-        // Pagination customization
-        $questions = Question::latest()->paginate(5);
+        $questions = Question::with('user')->latest()->paginate(5);
         return view('questions.index', compact('questions'));
     }
 
