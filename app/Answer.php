@@ -8,12 +8,23 @@ class Answer extends Model
 {
     public function question()
     {
-        $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class);
     }
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
+    }
+    
+    public static function boot()
+    {
+        parent::boot();
+    
+        static::created(function($answer) {
+            $answer->question->increment('answer_count');
+            $answer->question->save();
+        });
+    
     }
 
     public function getBodyHtmlAttribute()
