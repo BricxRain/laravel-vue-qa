@@ -23,10 +23,10 @@
                                     <strong>{{ $question->votes }}</strong> {{ str_plural('vote', $question->votes) }}
                                 </div>
                                 <div class="status {{ $question->status }}">
-                                    <strong>{{ $question->answers }}</strong> {{ str_plural('answer', $question->answers) }}
+                                    <strong>{{ $question->answer_count }}</strong> {{ str_plural('answer', $question->answer_count) }}
                                 </div>
                                 <div class="view">
-                                    {{ $question->views . " " . str_plural('view', $question->answers) }}
+                                    {{ $question->views . " " . str_plural('view', $question->answer_count) }}
                                 </div>
                             </div>
                             <div class="media-body">
