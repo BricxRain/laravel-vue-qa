@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Question;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -42,6 +44,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Question::class, 'favorites')->withTimestamps(); //, 'user_id', 'question_id');
     }
 
+    public function voteQuestions()
+    {
+        return $this->morphedByMany(Question::class, 'votable')->withTimestamps();
+    }
+
+    public function voteAnswers()
+    {
+        return $this->morphedByMany(Answer::class, 'votable')->withTimestamps();
+    }
+
     public function getUrlAttribute()
     {
         // return route('questions.show', $this->id);
@@ -54,5 +66,21 @@ class User extends Authenticatable
         $size = 32;
 
         return "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?s=" . $size;
+    }
+
+    public function voteQuestion(Question $question, $vote)
+    {
+        $voteQuestions = $this->voteQuestions();
+        if ($voteQuestions->where('votable_id', $question->id)->exists()) {
+            $voteQuestions->updateExistingPivot($question, ['vote' => $vote]);
+        } else {
+            $voteQuestions->attach($question, ['vote' => $vote]);
+        }
+        $question->load('votes');
+        $downVotes = (int) $question->downVotes()->sum('vote');
+        $upVotes = (int) $question->upVotes()->sum('vote');
+        
+        $question->vote_count = $upVotes + $downVotes;
+        $question->save();
     }
 }
