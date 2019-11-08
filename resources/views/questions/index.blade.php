@@ -55,10 +55,11 @@
                                     <a href="{{ $question->user->url }}">{{ $question->user->name }}</a>
                                     <small class="text-muted">{{ $question->created_date }}</small>
                                 </p>
-                                {{ str_limit($question->body, 250) }}
-                                <hr>
+                                <div class="excerpt">{{ $question->excerpt }}</div>
+                                {{-- <div class="excerpt">{!! str_limit(strip_tags($question->body_html), 300) !!}</div> --}}
                             </div>
                         </div>
+                        <hr>
                     @endforeach
 
                     <div class="mx-auto">
