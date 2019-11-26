@@ -70,7 +70,6 @@ export default {
     },
 
     data () {
-
         return {
             title: this.question.title,
             body: this.question.body,
@@ -78,11 +77,9 @@ export default {
             id: this.question.id,
             beforeEditCache: {}
         }
-
     },
 
     computed: {
-
         isInvalid () {
             return this.body.length < 10 || this.title.length < 10;
         },
@@ -90,11 +87,9 @@ export default {
         endpoint () {
             return `/questions/${this.id}`;
         }
-
     },
 
     methods: {
-        
         setEditCache () {
             this.beforeEditCache = {
                 body: this.body,
