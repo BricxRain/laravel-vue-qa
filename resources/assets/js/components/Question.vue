@@ -10,7 +10,9 @@
                     <div class="media">
                         <div class="media-body">
                             <div class="form-group">
-                                <textarea v-model="body" rows="10" class="form-control" required></textarea>
+                                <m-editor :body="body">
+                                    <textarea v-model="body" rows="10" class="form-control" required></textarea>
+                                </m-editor>
                             </div>
                             <button class="btn btn-primary" :disabled="isInvalid">Update</button>
                             <button class="btn btn-outline-secondary" @click="cancel" type="button">Cancel</button>
@@ -51,16 +53,24 @@
     </div>
 </template>
 <script>
+
 import UserInfo from './UserInfo.vue';
 import Vote from './Vote.vue';
+import MEditor from '../components/MEditor.vue';
 import modification from '../mixins/modification.js';
+
 export default {
+
     props: ['question'],
+
     mixins: [modification],
+
     components: {
-        UserInfo, Vote
+        UserInfo, Vote, MEditor
     },
+
     data () {
+
         return {
             title: this.question.title,
             body: this.question.body,
@@ -68,32 +78,42 @@ export default {
             id: this.question.id,
             beforeEditCache: {}
         }
+
     },
+
     computed: {
+
         isInvalid () {
             return this.body.length < 10 || this.title.length < 10;
         },
+
         endpoint () {
             return `/questions/${this.id}`;
         }
+
     },
+
     methods: {
+        
         setEditCache () {
             this.beforeEditCache = {
                 body: this.body,
                 title: this.title
             };
         },
+
         restoreFromCache () {
             this.body = this.beforeEditCache.body;
             this.title = this.beforeEditCache.title;
         },
+
         payload () {
             return {
                 body: this.body,
                 title: this.title
             };
         },
+
         delete () {
             axios.delete(this.endpoint)
                 .then(({data}) => {
