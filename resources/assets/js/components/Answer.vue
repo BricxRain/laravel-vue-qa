@@ -30,8 +30,13 @@
     </div>
 </template>
 <script>
+import UserInfo from './UserInfo.vue';
+import Vote from './Vote.vue';
 export default {
     props: ['answer'],
+    components: {
+        UserInfo, Vote
+    },
     data () {
         return {
             editing: false,

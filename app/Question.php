@@ -17,7 +17,8 @@ class Question extends Model
     protected $appends = [
         'created_date',
         'is_favorited',
-        'favorite_count'
+        'favorite_count',
+        'body_html'
     ];
 
     public function user()
