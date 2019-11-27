@@ -86,9 +86,5 @@ export default {
         },
 
         delete() {}
-    },
-
-    // mounted() {
-    //     this.highlight();
-    // }
+    }
 }
