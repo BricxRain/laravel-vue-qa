@@ -1,8 +1,17 @@
+import UserInfo from '../components/UserInfo.vue';
+import Vote from '../components/Vote.vue';
+import MEditor from '../components/MEditor.vue';
 import highlight from './highlight';
 
 export default {
 
     mixins: [highlight],
+
+    components: {
+        UserInfo,
+        Vote,
+        MEditor
+    },
 
     data() {
         return {
@@ -77,5 +86,9 @@ export default {
         },
 
         delete() {}
+    },
+
+    mounted() {
+        this.highlight();
     }
 }

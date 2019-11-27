@@ -2,15 +2,17 @@
     <div class="media post">
         <vote :model="answer" name="answer"></vote>
         <div class="media-body">
-            <form v-if="editing" @submit.prevent="update">
+            <form v-show="authorize('modify', answer) && editing" @submit.prevent="update">
                 <div class="form-group">
-                    <textarea v-model="body" rows="10" class="form-control" required></textarea>
+                    <m-editor :body="body" :name="uniqueName">
+                        <textarea v-model="body" rows="10" class="form-control" required></textarea>
+                    </m-editor>
                 </div>
                 <button class="btn btn-primary" :disabled="isInvalid">Update</button>
                 <button class="btn btn-outline-secondary" @click="cancel" type="button">Cancel</button>
             </form>
-            <div v-else>
-                <div v-html="bodyHtml"></div>
+            <div v-show="!editing">
+                <div v-html="bodyHtml" ref="bodyHtml"></div>
                 <div class="row">
                     <div class="col-4">
                         <div class="ml-auto">
@@ -30,15 +32,14 @@
     </div>
 </template>
 <script>
-import UserInfo from './UserInfo.vue';
-import Vote from './Vote.vue';
 import modification from '../mixins/modification.js';
+
 export default {
+
     props: ['answer'],
+
     mixins: [modification],
-    components: {
-        UserInfo, Vote
-    },
+
     data () {
         return {
             body: this.answer.body,
@@ -48,18 +49,22 @@ export default {
             beforeEditCache: null
         }
     },
+
     methods: {
         setEditCache () {
             this.beforeEditCache = this.body;
         },
+
         restoreFromCache () {
             this.body = this.beforeEditCache;
         },
+
         payload () {
             return {
                 body: this.body
             };
         },
+
         delete () {
             axios.delete(this.endpoint)
                 .then(res => {
@@ -70,12 +75,18 @@ export default {
                 }); 
         }
     },
+
     computed: {
         isInvalid () {
             return this.body.length < 10;
         },
+
         endpoint () {
             return `/questions/${this.questionId}/answers/${this.id}`;
+        },
+
+        uniqueName () {
+            return `answer-${this.id}`;
         }
     }
 }
