@@ -15748,11 +15748,11 @@ if (false) {
             });
         },
         delete: function _delete() {}
-    },
-
-    mounted: function mounted() {
-        this.highlight();
     }
+
+    // mounted() {
+    //     this.highlight();
+    // }
 });
 
 /***/ }),
@@ -67803,6 +67803,7 @@ if (false) {
     methods: {
         highlight: function highlight() {
             var el = this.$refs.bodyHtml;
+            console.log(el);
             if (el) __WEBPACK_IMPORTED_MODULE_0_prismjs___default.a.highlightAllUnder(el);
         }
     }
@@ -68101,6 +68102,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Answer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Answer_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewAnswer_vue__ = __webpack_require__(219);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewAnswer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NewAnswer_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_highlight__ = __webpack_require__(212);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 //
@@ -68128,8 +68130,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+
     props: ['question'],
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_highlight__["a" /* default */]],
+
+    components: {
+        Answer: __WEBPACK_IMPORTED_MODULE_0__Answer_vue___default.a,
+        NewAnswer: __WEBPACK_IMPORTED_MODULE_1__NewAnswer_vue___default.a
+    },
+
     data: function data() {
         return {
             questionId: this.question.id,
@@ -68141,6 +68154,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     created: function created() {
         this.fetch('/questions/' + this.questionId + '/answers');
     },
+
 
     methods: {
         fetch: function fetch(endpoint) {
@@ -68162,14 +68176,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         add: function add(answer) {
             this.answers.push(answer);
             this.count++;
+            this.highlight();
         }
     },
+
     computed: {
         title: function title() {
             return this.count + " " + (this.count > 1 ? 'Answers' : 'Answer');
         }
-    },
-    components: { Answer: __WEBPACK_IMPORTED_MODULE_0__Answer_vue___default.a, NewAnswer: __WEBPACK_IMPORTED_MODULE_1__NewAnswer_vue___default.a }
+    }
 });
 
 /***/ }),
@@ -68539,6 +68554,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MEditor_vue__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__MEditor_vue__);
+//
+//
 //
 //
 //
@@ -68562,13 +68581,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+
     props: ['questionId'],
+
+    components: {
+        MEditor: __WEBPACK_IMPORTED_MODULE_0__MEditor_vue___default.a
+    },
+
     data: function data() {
         return {
             body: ''
         };
     },
+
 
     methods: {
         create: function create() {
@@ -68587,6 +68615,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
+
     computed: {
         isInvalid: function isInvalid() {
             return !this.signedIn || this.body.length < 10;
@@ -68621,29 +68650,40 @@ var render = function() {
               }
             },
             [
-              _c("div", { staticClass: "form-group" }, [
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.body,
-                      expression: "body"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "body", rows: "7", required: "" },
-                  domProps: { value: _vm.body },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.body = $event.target.value
-                    }
-                  }
-                })
-              ]),
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c(
+                    "m-editor",
+                    { attrs: { body: _vm.body, name: "new-answer" } },
+                    [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.body,
+                            expression: "body"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "body", rows: "7", required: "" },
+                        domProps: { value: _vm.body },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.body = $event.target.value
+                          }
+                        }
+                      })
+                    ]
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c(

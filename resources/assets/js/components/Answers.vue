@@ -23,8 +23,19 @@
 <script>
 import Answer from './Answer.vue';
 import NewAnswer from './NewAnswer.vue';
+import highlight from '../mixins/highlight';
+
 export default {
+
     props: ['question'],
+
+    mixins: [highlight],
+
+    components: { 
+        Answer, 
+        NewAnswer 
+    },
+
     data () {
         return {
             questionId: this.question.id,
@@ -33,9 +44,11 @@ export default {
             nextUrl: null
         }
     },
+
     created () {
         this.fetch(`/questions/${this.questionId}/answers`); 
     },
+
     methods: {
         fetch (endpoint) {
             axios.get(endpoint)
@@ -44,20 +57,23 @@ export default {
                 this.nextUrl = data.next_page_url;
             });
         },
+
         remove (index) {
             this.answers.splice(index, 1);
             this.count--;
         },
+
         add (answer) {
             this.answers.push(answer);
             this.count++;
+            this.highlight();
         }
     },
+
     computed: {
         title () {
             return this.count + " " + (this.count > 1 ? 'Answers' : 'Answer');
         }
-    },
-    components: { Answer, NewAnswer }
+    }
 }
 </script>
