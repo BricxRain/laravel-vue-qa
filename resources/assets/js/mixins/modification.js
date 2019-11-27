@@ -1,20 +1,31 @@
+import highlight from './highlight';
+
 export default {
+
+    mixins: [highlight],
+
     data() {
         return {
             editing: false
         }
     },
+
     methods: {
+
         edit() {
             this.setEditCache();
             this.editing = true;
         },
+
         cancel() {
             this.restoreFromCache();
             this.editing = false;
         },
+
         setEditCache() {},
+
         restoreFromCache() {},
+
         update() {
             axios.put(this.endpoint, this.payload())
                 .catch(error => {
@@ -30,9 +41,12 @@ export default {
                         timeout: 3000
                     });
                     this.editing = false;
-                });
+                })
+                .then(() => this.highlight());
         },
+
         payload() {},
+
         destroy() {
             this.$toast.question('Are you sure about that?', 'Confirm', {
                 timeout: 20000,
@@ -61,6 +75,7 @@ export default {
                 ]
             });
         },
+
         delete() {}
     }
 }

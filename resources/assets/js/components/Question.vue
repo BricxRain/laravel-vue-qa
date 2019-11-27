@@ -101,8 +101,6 @@ export default {
         restoreFromCache () {
             this.body = this.beforeEditCache.body;
             this.title = this.beforeEditCache.title;
-            const el = this.$refs.bodyHtml;
-            if (el) Prism.highlightAllUnder(el);
         },
 
         payload () {
