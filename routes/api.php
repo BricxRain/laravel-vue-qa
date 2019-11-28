@@ -17,8 +17,12 @@ Route::post('/token', 'Auth\LoginController@getToken');
 Route::get('/questions/{question}-{slug}', 'Api\QuestionDetailsController');
 
 Route::middleware(['auth:api'])->group(function() {
-    Route::apiResource('questions', 'Api\QuestionsController');
+    Route::apiResource('questions', 'Api\QuestionsController')->except(['index']);
+    Route::apiResource('questions.answers', 'Api\AnswersController')->except(['index']);
 });
+    
+Route::get('/questions', 'Api\QuestionsController@index')->name('questions.index');
+Route::get('/questions/{question}/answers', 'Api\AnswersController@index')->name('questions.answers.index');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
