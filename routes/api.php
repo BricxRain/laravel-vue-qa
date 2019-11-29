@@ -22,11 +22,15 @@ Route::middleware(['auth:api'])->group(function() {
 
     Route::post('/questions/{question}/vote', 'Api\VoteQuestionController')->name('question.vote');
     Route::post('/answers/{answer}/vote', 'Api\VoteAnswerController')->name('answer.vote');
+
+    Route::post('/answers/{answer}/accept', 'Api\AcceptAnswerController')->name('answer.accept');
+    Route::post('/questions/{question}/favorites', 'Api\FavoritesController@store')->name('question.favorite');
+    Route::delete('/questions/{question}/favorites', 'Api\FavoritesController@destroy')->name('question.unfavorite');
 });
     
 Route::get('/questions', 'Api\QuestionsController@index')->name('questions.index');
 Route::get('/questions/{question}/answers', 'Api\AnswersController@index')->name('questions.answers.index');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
