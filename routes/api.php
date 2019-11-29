@@ -13,10 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('/token', 'Auth\LoginController@getToken');
+// Route::post('/token', 'Auth\LoginController@getToken');
+Route::post('/register', 'Api\Auth\RegisterController');
+Route::post('/login', 'Api\Auth\LoginController@store');
+
 Route::get('/questions/{question}-{slug}', 'Api\QuestionDetailsController');
 
 Route::middleware(['auth:api'])->group(function() {
+    Route::delete('/logout', 'Api\Auth\LoginController@destroy');
+
     Route::apiResource('questions', 'Api\QuestionsController')->except(['index']);
     Route::apiResource('questions.answers', 'Api\AnswersController')->except(['index']);
 
