@@ -2,6 +2,7 @@ import QuestionsPage from '../pages/QuestionsPage.vue';
 import QuestionPage from '../pages/QuestionPage.vue';
 import MyPostsPage from '../pages/MyPostsPage.vue';
 import NotFoundPage from '../pages/NotFoundPage.vue';
+import CreateQuestionPage from '../pages/CreateQuestionPage.vue';
 
 const routes = [{
         path: '/',
@@ -25,6 +26,11 @@ const routes = [{
         path: '/questions/:slug',
         component: QuestionPage,
         name: 'questions.show'
+    },
+    {
+        path: '/questions/create',
+        component: CreateQuestionPage,
+        name: 'questions.create'
     },
     {
         path: '*',
