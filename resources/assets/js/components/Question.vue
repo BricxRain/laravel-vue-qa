@@ -24,7 +24,7 @@
                         <div class="d-flex align-items-center">
                             <h1>{{ title }}</h1>
                             <div class="ml-auto">
-                                <a href="/questions" class="btn btn-outline-secondary">Back to all questions</a>
+                                <router-link exact :to="{ name: 'questions' }" class="btn btn-outline-secondary">Back to all questions</router-link>
                             </div>
                         </div>
                     </div>
@@ -36,8 +36,16 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="ml-auto">
-                                        <a v-if="authorize('modify', question)" @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</a>
-                                        <button v-if="authorize('deleteQuestion', question)" @click="destroy" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        <a 
+                                            v-if="authorize('modify', question)" 
+                                            @click.prevent="edit" 
+                                            class="btn btn-sm btn-outline-info"
+                                            >Edit</a>
+                                        <button 
+                                            v-if="authorize('deleteQuestion', question)" 
+                                            @click="destroy" 
+                                            class="btn btn-sm btn-outline-danger"
+                                            >Delete</button>
                                     </div>
                                 </div>
                                 <div class="col-4"></div>
@@ -53,6 +61,7 @@
     </div>
 </template>
 <script>
+import EventBus from '../event-bus';
 import modification from '../mixins/modification.js';
 
 export default {
@@ -69,6 +78,12 @@ export default {
             id: this.question.id,
             beforeEditCache: {}
         }
+    },
+
+    mounted () {
+        EventBus.$on('answers-count-changed', (count) => {
+            this.question.answer_count = count;
+        });
     },
 
     computed: {
@@ -111,11 +126,8 @@ export default {
                     this.$toast.success(data.message, "Success", {
                         timeout: 2000
                     });
+                    this.$router.push({ name: 'questions' });
                 }); 
-
-                setTimeout(() => {
-                    window.location.href = "/questions";
-                }, 3000);
         }
     }
 }

@@ -9,7 +9,6 @@ export default {
             } else {
                 el = document.getElementById(id);
             }
-            console.log('el', el);
             if (el) Prism.highlightAllUnder(el);
         }
     }

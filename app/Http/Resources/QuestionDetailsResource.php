@@ -17,6 +17,8 @@ class QuestionDetailsResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'body' => $this->body,
+            'body_html' => $this->body_html,
             'slug' => $this->slug,
             'vote_count' => $this->vote_count,
             'answer_count' => $this->answer_count,
