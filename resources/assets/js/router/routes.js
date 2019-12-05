@@ -16,7 +16,7 @@ const routes = [{
         name: 'questions'
     },
     {
-        path: '/my-posts',
+        path: '/home',
         component: MyPostsPage,
         name: 'my-posts',
         meta: {

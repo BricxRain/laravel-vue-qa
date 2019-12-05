@@ -3,8 +3,8 @@
         <div class="card-body">
             <spinner v-if="$root.loading"></spinner>
             <div v-else-if="questions.length > 0">
-                <question-excerpt @deleted="remove(index)" 
-                    v-for="(question, index) in questions" 
+                <question-excerpt 
+                    v-for="question in questions" 
                     :question="question" 
                     :key="question.id"></question-excerpt>
             </div>
@@ -24,6 +24,7 @@
 <script>
 import QuestionExcerpt from '../components/QuestionExcerpt.vue';
 import Pagination from '../components/Pagination.vue';
+import EventBus from '../event-bus';
 
 export default {
 
@@ -42,6 +43,11 @@ export default {
 
     mounted () {
         this.fetchQuestions();
+
+        EventBus.$on('deleted', (id) => {
+            let index = this.questions.findIndex(question => id === question.id);
+            this.remove(index);
+        });
     },
 
     watch: {

@@ -18,7 +18,10 @@ export default {
 
     computed: {
         pagesInfo () {
-            return `Pages ${this.meta.current_page} of ${this.meta.last_page}`;
+            let currentPage = this.meta.current_page || 1,
+                lastPage = this.meta.last_page || 1;
+
+            return `Pages ${currentPage} of ${lastPage}`;
         },
 
         isFirst () {
